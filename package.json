@@ -19,7 +19,11 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
+      "cordova-webrtc": {},
       "cordova-webtrc": {}
-    }
+    },
+    "platforms": [
+      "ios"
+    ]
   }
 }
