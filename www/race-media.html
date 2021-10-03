@@ -2,10 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
-    />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta
@@ -19,13 +15,30 @@
   <body>
     <div class="app">
       <h1>Apache Cordova</h1>
+      <audio
+        autoplay
+        loop
+        controls
+        src="https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3"
+      ></audio>
       <div id="deviceready" class="blink">
         <p class="event listening">Connecting to Device</p>
         <p class="event received">Device is Ready</p>
       </div>
-      <a href="race-media.html">Race Media</a>
     </div>
     <script src="cordova.js"></script>
-    <script src="js/index.js"></script>
+    <script>
+      function onDeviceReady() {
+        const mp3 = new Media(
+          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3'
+        )
+
+        setInterval(() => {
+          mp3.play({ numberOfLoops: 99 })
+        }, 5000)
+      }
+
+      document.addEventListener('deviceready', onDeviceReady, false)
+    </script>
   </body>
 </html>
