@@ -25,7 +25,10 @@
     <script>
       function onDeviceReady() {
         const mp3 = new Media(
-          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3'
+          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3',
+          () => console.log('mediaSuccess'),
+          (errorCode) => console.log('mediaError', errorCode),
+          (statusCode) => console.log('mediaStatus', statusCode)
         )
 
         setTimeout(() => {
