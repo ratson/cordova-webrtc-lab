@@ -24,15 +24,22 @@
     <script src="cordova.js"></script>
     <script>
       function onDeviceReady() {
-        const mp3 = new Media(
+        const media = new Media(
           'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3',
           () => console.log('mediaSuccess'),
-          (errorCode) => console.log('mediaError', errorCode),
-          (statusCode) => console.log('mediaStatus', statusCode)
+          (errorCode) => console.log('media.error', errorCode),
+          (statusCode) => console.log('media.status', statusCode)
         )
 
         setTimeout(() => {
-          mp3.play({ numberOfLoops: 99 })
+          media.play({ numberOfLoops: 99 })
+        }, 5000)
+
+        setInterval(() => {
+          media.getCurrentPosition(
+            (position) => console.log('media.position', position),
+            (err) => console.log('media.position.error', err)
+          )
         }, 5000)
       }
 
