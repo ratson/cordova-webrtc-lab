@@ -10,7 +10,7 @@
     />
     <meta name="color-scheme" content="light dark" />
     <link rel="stylesheet" href="css/index.css" />
-    <title>Hello World</title>
+    <title>Race Media</title>
   </head>
   <body>
     <div class="app">
@@ -20,6 +20,14 @@
         controls
         src="https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3"
       ></audio>
+      <p>
+        <a href="#play-native"
+          >Play Native (<span id="native-duration">-</span>)</a
+        >
+      </p>
+      <p>
+        <a href="#play-web">Play Web</a>
+      </p>
     </div>
     <script src="cordova.js"></script>
     <script>
@@ -31,16 +39,33 @@
           (statusCode) => console.log('media.status', statusCode)
         )
 
-        setTimeout(() => {
-          media.play({ numberOfLoops: 99 })
-        }, 5000)
+        const elmAudio = document.querySelector('audio')
+        const elmNativeDuration = document.querySelector('#native-duration')
 
         setInterval(() => {
           media.getCurrentPosition(
-            (position) => console.log('media.position', position),
+            (position) => {
+              console.log('media.position', position)
+              elmNativeDuration.innerHTML = position
+            },
             (err) => console.log('media.position.error', err)
           )
-        }, 5000)
+        }, 1000)
+
+        window.addEventListener(
+          'hashchange',
+          () => {
+            switch (location.hash) {
+              case '#play-native':
+                media.play({ numberOfLoops: 99 })
+                break
+              case '#play-web':
+                elmAudio.play()
+                break
+            }
+          },
+          false
+        )
       }
 
       document.addEventListener('deviceready', onDeviceReady, false)
