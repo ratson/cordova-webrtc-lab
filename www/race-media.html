@@ -28,17 +28,22 @@
       <p>
         <a href="#play-web">Play Web</a>
       </p>
+      <p>
+        <a href="#get-user-media">getUserMedia()</a>
+      </p>
     </div>
     <script src="cordova.js"></script>
-    <script>
+    <script type="module">
       function onDeviceReady() {
+        const url = 'https://demo.twilio.com/docs/classic.mp3'
         const media = new Media(
-          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3',
+          url,
           () => console.log('mediaSuccess'),
           (errorCode) => console.log('media.error', errorCode),
           (statusCode) => console.log('media.status', statusCode)
         )
 
+        const audioCtx = new AudioContext()
         const elmAudio = document.querySelector('audio')
         const elmNativeDuration = document.querySelector('#native-duration')
 
@@ -51,10 +56,9 @@
             (err) => console.log('media.position.error', err)
           )
         }, 1000)
-
         window.addEventListener(
           'hashchange',
-          () => {
+          async () => {
             switch (location.hash) {
               case '#play-native':
                 media.play({ numberOfLoops: 99 })
@@ -62,6 +66,17 @@
               case '#play-web':
                 elmAudio.play()
                 break
+              case '#get-user-media': {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                  audio: true,
+                  video: false,
+                })
+                elmAudio.srcObject = stream
+                elmAudio.onloadeddata = () => {
+                  elmAudio.play()
+                }
+                break
+              }
             }
           },
           false
