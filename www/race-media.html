@@ -26,6 +26,11 @@
         >
       </p>
       <p>
+        <a href="#play-native2"
+          >Play Native 2 (<span id="native-duration2">-</span>)</a
+        >
+      </p>
+      <p>
         <a href="#play-web">Play Web</a>
       </p>
       <p>
@@ -43,9 +48,19 @@
           (statusCode) => console.log('media.status', statusCode)
         )
 
+        const url2 =
+          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3'
+        const media2 = new Media(
+          url,
+          () => console.log('mediaSuccess'),
+          (errorCode) => console.log('media.error', errorCode),
+          (statusCode) => console.log('media.status', statusCode)
+        )
+
         const audioCtx = new AudioContext()
         const elmAudio = document.querySelector('audio')
         const elmNativeDuration = document.querySelector('#native-duration')
+        const elmNativeDuration2 = document.querySelector('#native-duration2')
 
         setInterval(() => {
           media.getCurrentPosition(
@@ -55,13 +70,24 @@
             },
             (err) => console.log('media.position.error', err)
           )
+          media2.getCurrentPosition(
+            (position) => {
+              console.log('media.position', position)
+              elmNativeDuration2.innerHTML = position
+            },
+            (err) => console.log('media.position.error', err)
+          )
         }, 1000)
+
         window.addEventListener(
           'hashchange',
           async () => {
             switch (location.hash) {
               case '#play-native':
                 media.play({ numberOfLoops: 99 })
+                break
+              case '#play-native2':
+                media2.play({ numberOfLoops: 99 })
                 break
               case '#play-web':
                 elmAudio.play()
