@@ -36,6 +36,9 @@
       <p>
         <a href="#get-user-media">getUserMedia()</a>
       </p>
+      <p>
+        <a href="#config-audio">configAudio()</a>
+      </p>
     </div>
     <script src="cordova.js"></script>
     <script type="module">
@@ -103,6 +106,15 @@
                 elmAudio.onloadeddata = () => {
                   elmAudio.play()
                 }
+                break
+              }
+              case '#config-audio': {
+                const mode = 'AVAudioSessionModeVoiceChat'
+                webrtc.__configAudio({
+                  isAudioEnabled: true,
+                  category: 'playAndRecord',
+                  mode,
+                })
                 break
               }
             }
