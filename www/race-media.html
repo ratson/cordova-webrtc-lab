@@ -40,6 +40,8 @@
     <script src="cordova.js"></script>
     <script type="module">
       function onDeviceReady() {
+        cordova.plugins.backgroundMode.enable()
+
         const url = 'https://demo.twilio.com/docs/classic.mp3'
         const media = new Media(
           url,
