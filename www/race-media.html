@@ -42,6 +42,8 @@
     </div>
     <script src="cordova.js"></script>
     <script type="module">
+      import { onHash } from './js/lib.js'
+
       function onDeviceReady() {
         cordova.plugins.backgroundMode.enable()
 
@@ -84,43 +86,35 @@
           )
         }, 1000)
 
-        window.addEventListener(
-          'hashchange',
-          async () => {
-            switch (location.hash) {
-              case '#play-native':
-                media.play({ numberOfLoops: 99 })
-                break
-              case '#play-native2':
-                media2.play({ numberOfLoops: 99 })
-                break
-              case '#play-web':
-                elmAudio.play()
-                break
-              case '#get-user-media': {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                  audio: true,
-                  video: false,
-                })
-                elmAudio.srcObject = stream
-                elmAudio.onloadeddata = () => {
-                  elmAudio.play()
-                }
-                break
-              }
-              case '#config-audio': {
-                const mode = 'AVAudioSessionModeVoiceChat'
-                webrtc.__configAudio({
-                  isAudioEnabled: true,
-                  category: 'playAndRecord',
-                  mode,
-                })
-                break
-              }
+        onHash({
+          'play-native': () => {
+            media.play({ numberOfLoops: 99 })
+          },
+          'play-native2': () => {
+            media2.play({ numberOfLoops: 99 })
+          },
+          'play-web': () => {
+            elmAudio.play()
+          },
+          'get-user-media': async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: false,
+            })
+            elmAudio.srcObject = stream
+            elmAudio.onloadeddata = () => {
+              elmAudio.play()
             }
           },
-          false
-        )
+          'config-audio': () => {
+            const mode = 'AVAudioSessionModeVoiceChat'
+            webrtc.__configAudio({
+              isAudioEnabled: true,
+              category: 'playAndRecord',
+              mode,
+            })
+          },
+        })
       }
 
       document.addEventListener('deviceready', onDeviceReady, false)
