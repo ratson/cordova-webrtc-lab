@@ -11,7 +11,7 @@
     <access origin="*" />
     <preference name="scheme" value="https" />
     <preference name="hostname" value="localhost" />
-    <allow-navigation href="https://localhost/*"/>
+    <allow-navigation href="https://localhost/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
