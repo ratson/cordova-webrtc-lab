@@ -42,23 +42,20 @@
     </div>
     <script src="cordova.js"></script>
     <script type="module">
-      import { onHash } from './js/lib.js'
+      import { mediaUrls, onHash } from './js/lib.js'
 
       function onDeviceReady() {
         cordova.plugins.backgroundMode.enable()
 
-        const url = 'https://demo.twilio.com/docs/classic.mp3'
         const media = new Media(
-          url,
+          mediaUrls[0],
           () => console.log('mediaSuccess'),
           (errorCode) => console.log('media.error', errorCode),
           (statusCode) => console.log('media.status', statusCode)
         )
 
-        const url2 =
-          'https://github.com/crossle/AppRTCMobile/raw/master/webrtc/ios/resources/mozart.mp3'
         const media2 = new Media(
-          url,
+          mediaUrls[1],
           () => console.log('mediaSuccess'),
           (errorCode) => console.log('media.error', errorCode),
           (statusCode) => console.log('media.status', statusCode)
